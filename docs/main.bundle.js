@@ -47,7 +47,7 @@ var DataService = /** @class */ (function () {
         this.apiUrlStates = "https://secure.geonames.org/childrenJSON?geonameId=3469034&username=tiagogalczinski";
         this.apiUrlCities = "https://secure.geonames.org/childrenJSON?geonameId=";
         this.apiUrlKey = "b2ff507f";
-        this.apiUrlWeather = "https://api.hgbrasil.com/weather/?format=json";
+        this.apiUrlWeather = "https://api.hgbrasil.com/weather/?format=json-cors";
     }
     DataService.prototype.getStates = function () {
         return this.http.get(this.apiUrlStates)
