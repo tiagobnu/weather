@@ -13,7 +13,7 @@ export class DataService {
 
   private apiUrlCities: string = "https://secure.geonames.org/childrenJSON?geonameId=";
 
-  private apiUrlKey: string = "";
+  private apiUrlKey: string = "b2ff507f";
   private apiUrlWeather: string = "https://api.hgbrasil.com/weather/?format=json";
 
   constructor(private http: Http) { }
