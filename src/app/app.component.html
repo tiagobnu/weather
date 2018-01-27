@@ -1,0 +1,23 @@
+<form [formGroup]="regionForm">
+  <mat-form-field>
+    <mat-select formControlName="estado" placeholder="Favorite food" (change)="onSelectState($event)">
+      <mat-option *ngFor="let state of states" [value]="state.geonameId">
+        {{ state.toponymName }}
+      </mat-option>
+    </mat-select>
+  </mat-form-field>
+
+  <mat-form-field>
+    <input formControlName="cidade" matInput placeholder="City" aria-label="City" [matAutocomplete]="auto" [formControl]="stateCtrl">
+    <mat-autocomplete #auto="matAutocomplete" (optionSelected)="onSelectCity($event)">
+      <mat-option *ngFor="let city of filteredStates | async" [attr.data-lat]="city.lat" [attr.data-lng]="city.lng" [value]="city.toponymName" >
+        {{ city.toponymName }}
+      </mat-option>
+    </mat-autocomplete>
+  </mat-form-field>
+</form>
+
+<BR><br>
+LAST: {{ cities|json }}
+<br><br>
+<!-- {{states|json}} -->
