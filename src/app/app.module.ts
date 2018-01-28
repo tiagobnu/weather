@@ -8,6 +8,8 @@ import { MatButtonModule, MatInputModule, MatToolbarModule, MatIconModule, MatCa
 import { MatSelectModule } from '@angular/material/select';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
 
+import { ChartModule } from 'angular2-chartjs';
+
 import { DataService } from "./_services/data.service";
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
@@ -27,7 +29,8 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
     MatToolbarModule,
     MatIconModule,
     MatCardModule,
-    MatDividerModule
+    MatDividerModule,
+    ChartModule
   ],
   providers: [DataService],
   bootstrap: [AppComponent]
