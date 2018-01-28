@@ -102,7 +102,7 @@
 <mat-card class="container content">
     <table class="forecast-next" cellspacing="0" borderspacing="0" align="center">
         <tr *ngFor="let f of forecast; let i=index">
-                <td width="34%" *ngIf="i>0"> 
+                <td width="20%" *ngIf="i>0"> 
                     <div class="maxmin flex"> <i class="material-icons">keyboard_arrow_up</i> <span class="maxmin-label"> {{f.max}}º </span> </div>
                     <div class="maxmin flex"> <i class="material-icons min">keyboard_arrow_down</i> <span class="maxmin-label min"> {{f.min}}º </span> </div>    
                 </td>
