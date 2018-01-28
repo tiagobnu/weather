@@ -76,7 +76,7 @@ var DataService = /** @class */ (function () {
 /***/ "../../../../../src/app/app.component.html":
 /***/ (function(module, exports) {
 
-module.exports = "<form [formGroup]=\"regionForm\">\n  <mat-form-field>\n    <mat-select formControlName=\"estado\" placeholder=\"Favorite food\" (change)=\"onSelectState($event)\">\n      <mat-option *ngFor=\"let state of states\" [value]=\"state.geonameId\">\n        {{ state.toponymName }}\n      </mat-option>\n    </mat-select>\n  </mat-form-field>\n\n  <mat-form-field>\n    <input formControlName=\"cidade\" matInput placeholder=\"City\" aria-label=\"City\" [matAutocomplete]=\"auto\" [formControl]=\"stateCtrl\">\n    <mat-autocomplete #auto=\"matAutocomplete\" (optionSelected)=\"onSelectCity($event)\">\n      <mat-option *ngFor=\"let city of filteredStates | async\" [attr.data-lat]=\"city.lat\" [attr.data-lng]=\"city.lng\" [value]=\"city.toponymName\" >\n        {{ city.toponymName }}\n      </mat-option>\n    </mat-autocomplete>\n  </mat-form-field>\n</form>\n\n<BR><br>\nLAST: {{ cities|json }}\n<br><br>\n<!-- {{states|json}} -->"
+module.exports = "<mat-toolbar color=\"primary\">\n\n    <mat-toolbar-row color=\"primary\">\n\n        <div class=\"container\">\n            <button mat-icon-button>\n                <mat-icon>opacity</mat-icon>\n            </button>\n            <span class=\"app-title\">Weather</span>\n        </div>\n\n    </mat-toolbar-row>\n\n</mat-toolbar>\n\n<mat-card class=\"container\">\n\n    <form [formGroup]=\"regionForm\">\n        <mat-form-field>\n            <mat-select formControlName=\"estado\" placeholder=\"Estado\" (change)=\"onSelectState($event)\">\n            <mat-option *ngFor=\"let state of states\" [value]=\"state.geonameId\">\n                {{ state.toponymName }}\n            </mat-option>\n            </mat-select>\n        </mat-form-field>\n        \n        <mat-form-field>\n            <input formControlName=\"cidade\" matInput placeholder=\"Cidade\" aria-label=\"City\" [matAutocomplete]=\"auto\" [formControl]=\"stateCtrl\">\n            <mat-autocomplete #auto=\"matAutocomplete\" (optionSelected)=\"onSelectCity($event)\">\n            <mat-option *ngFor=\"let city of filteredStates | async\" [attr.data-lat]=\"city.lat\" [attr.data-lng]=\"city.lng\" [value]=\"city.toponymName\" >\n                {{ city.toponymName }}\n            </mat-option>\n            </mat-autocomplete>\n        </mat-form-field>\n    </form>\n\n</mat-card>\n\n<mat-card class=\"container content-today\">\n\n    <div *ngFor=\"let f of forecast; let ii=index\">\n        <div *ngIf=\"ii<1\" class=\"flex container-today\">\n            <div *ngIf=\"f.condition=='storm'\" class=\"weather-container column1\">\n                <ul>\n                    <li>\n                        <div class=\"icon-container rain thunderstorms\">\n                            <div class=\"cloud\"></div>\n                            <div class=\"rain-container\">\n                            <div class=\"rain-drop\"></div>\n                            <div class=\"rain-drop\"></div>\n                            <div class=\"rain-drop\"></div>\n                            <div class=\"rain-drop\"></div>\n                            </div>\n                            <div class=\"shadow\"></div>\n                            <div class=\"lightning\"></div>\n                        </div>\n                    </li>\n                </ul>\n            </div>\n            <div *ngIf=\"f.condition=='clear_day'\" class=\"weather-container column1\">\n                <ul>\n                    <li>\n                        <div class=\"icon-container\">\n                            <div class=\"sun\"></div>\n                        </div>\n                    </li>\n                </ul>\n            </div>\n            <div *ngIf=\"f.condition=='cloud'\" class=\"weather-container column1\">\n                <ul>\n                    <li>\n                        <div class=\"icon-container cloudy\">\n                            <div class=\"cloud with-shadow\">\n                            <div class=\"shadow\"></div>\n                            </div>\n                        </div>\n                    </li>      \n                </ul>\n            </div>\n            <div *ngIf=\"f.condition=='cloudly_day'\" class=\"weather-container column1\">\n                <ul>\n                    <li>\n                        <div class=\"icon-container mostly-cloudy\">\n                            <div class=\"sun\"></div>\n                            <div class=\"cloud with-shadow\">\n                            <div class=\"shadow\"></div>\n                            </div>\n                        </div>\n                    </li>    \n                </ul>\n            </div>\n\n            <div class=\"column2\">\n                <span class=\"today\">{{weather.temp}}º</span>\n                <span>{{f.description}}</span>                \n            </div>\n\n            <div>\n                <div class=\"maxmin flex\"> <i class=\"material-icons\">keyboard_arrow_up</i> <span class=\"maxmin-label\"> {{f.max}}º </span> </div>\n                <div class=\"maxmin flex\"> <i class=\"material-icons min\">keyboard_arrow_down</i> <span class=\"maxmin-label min\"> {{f.min}}º </span> </div>\n            </div>\n\n        </div>\n    </div>\n\n</mat-card>\n\n<mat-card class=\"container content\">\n    <table class=\"forecast-next\" cellspacing=\"0\" borderspacing=\"0\" align=\"center\">\n        <tr *ngFor=\"let f of forecast; let i=index\">\n                <td width=\"34%\" *ngIf=\"i>0\"> \n                    <div class=\"maxmin flex\"> <i class=\"material-icons\">keyboard_arrow_up</i> <span class=\"maxmin-label\"> {{f.max}}º </span> </div>\n                    <div class=\"maxmin flex\"> <i class=\"material-icons min\">keyboard_arrow_down</i> <span class=\"maxmin-label min\"> {{f.min}}º </span> </div>    \n                </td>\n                <td class=\"weekday\" *ngIf=\"i>0\">{{f.weekday}}</td>\n                <td align=\"right\" *ngIf=\"i>0\"> {{f.description}}</td>\n        </tr>\n    </table>\n</mat-card>\n    \n{{weather | json}}\n\n<BR><br>\n<!-- LAST: {{ dataTemp|json }} -->\n<br>\n<!-- temperatura atual: {{ dataTemp.results.temp |json }} <br>\ncondition: {{ dataTemp.results.forecast[0].condition |json }} <br>\ndescription: {{ dataTemp.results.forecast[0].description |json }} <br>\nmax: {{ dataTemp.results.forecast[0].max |json }} <br>\nmin: {{ dataTemp.results.forecast[0].min |json }} <br> -->\n\n<Br>\n<!-- \n<table>\n  <tr *ngFor=\"let forecast of dataTemp.results.forecast\" >\n    <td>{{forecast.condition}}</td>\n    <td>{{forecast.max}} - {{forecast.min}}</td>\n    <td>{{forecast.weekday}}</td>\n    <td>{{forecast.description}}</td>\n  </tr>\n</table>\n<br><br> -->\n<!-- {{states|json}} -->\n\n<Br>\n"
 
 /***/ }),
 
@@ -124,6 +124,7 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 
 var AppComponent = /** @class */ (function () {
     function AppComponent(dS, formBuilder) {
+        // this.dataTemp = {"by":"gps","valid_key":true,"results":{"temp":23,"date":"27/01/2018","time":"18:34","condition_code":"26","description":"Tempo nublado","currently":"dia","cid":"","city":"Blumenau,","img_id":"26","humidity":"74","wind_speedy":"11.27 km/h","sunrise":"6:46 am","sunset":"8:12 pm","condition_slug":"cloud","city_name":"Blumenau","forecast":[{"date":"27/01","weekday":"Sáb","max":"24","min":"18","description":"Tempo nublado","condition":"cloud"},{"date":"28/01","weekday":"Dom","max":"28","min":"19","description":"Tempo nublado","condition":"cloud"},{"date":"29/01","weekday":"Seg","max":"25","min":"21","description":"Tempestades isoladas","condition":"storm"},{"date":"30/01","weekday":"Ter","max":"28","min":"17","description":"Parcialmente nublado","condition":"cloudly_day"},{"date":"31/01","weekday":"Qua","max":"26","min":"21","description":"Tempestades isoladas","condition":"storm"},{"date":"01/02","weekday":"Qui","max":"28","min":"21","description":"Tempo nublado","condition":"cloud"},{"date":"02/02","weekday":"Sex","max":"28","min":"20","description":"Ensolarado com muitas nuvens","condition":"cloudly_day"},{"date":"03/02","weekday":"Sáb","max":"27","min":"20","description":"Ensolarado com muitas nuvens","condition":"cloudly_day"},{"date":"04/02","weekday":"Dom","max":"25","min":"18","description":"Parcialmente nublado","condition":"cloudly_day"},{"date":"05/02","weekday":"Seg","max":"25","min":"18","description":"Parcialmente nublado","condition":"cloudly_day"}]},"execution_time":0.0,"from_cache":true}
         var _this = this;
         this.dS = dS;
         this.formBuilder = formBuilder;
@@ -131,6 +132,16 @@ var AppComponent = /** @class */ (function () {
         this.states = [];
         this.cities = [];
         this.weather = [];
+        this.forecast = [];
+        //TEMP CODE for calc max min
+        // var weekMax = 0;
+        // var weekMin = 99;
+        // this.dataTemp.results.forecast.forEach(function(f) {
+        //     var max = f.max;
+        //     var min = f.min;
+        //     if(max > weekMax) { weekMax = max }
+        //     if(min < weekMin) { weekMin = min }
+        // })
         //formbuild
         this.regionForm = formBuilder.group({
             estado: ['', [
@@ -162,7 +173,10 @@ var AppComponent = /** @class */ (function () {
         var lat = event.option._element.nativeElement.dataset.lat;
         var lng = event.option._element.nativeElement.dataset.lng;
         this.dS.getWeather(lat, lng)
-            .subscribe(function (data) { return _this.weather = data; });
+            .subscribe(function (data) {
+            _this.weather = data.results;
+            _this.forecast = data.results.forecast;
+        });
     };
     AppComponent.prototype.filterStates = function (name) {
         return this.cities.filter(function (state) {
@@ -228,10 +242,14 @@ var AppModule = /** @class */ (function () {
                 __WEBPACK_IMPORTED_MODULE_2__angular_http__["b" /* HttpModule */],
                 __WEBPACK_IMPORTED_MODULE_4__angular_platform_browser_animations__["a" /* BrowserAnimationsModule */],
                 __WEBPACK_IMPORTED_MODULE_5__angular_material__["a" /* MatButtonModule */],
-                __WEBPACK_IMPORTED_MODULE_5__angular_material__["b" /* MatInputModule */],
+                __WEBPACK_IMPORTED_MODULE_5__angular_material__["e" /* MatInputModule */],
                 __WEBPACK_IMPORTED_MODULE_6__angular_material_select__["a" /* MatSelectModule */],
                 __WEBPACK_IMPORTED_MODULE_7__angular_material_autocomplete__["a" /* MatAutocompleteModule */],
-                __WEBPACK_IMPORTED_MODULE_9__angular_forms__["i" /* ReactiveFormsModule */]
+                __WEBPACK_IMPORTED_MODULE_9__angular_forms__["i" /* ReactiveFormsModule */],
+                __WEBPACK_IMPORTED_MODULE_5__angular_material__["f" /* MatToolbarModule */],
+                __WEBPACK_IMPORTED_MODULE_5__angular_material__["d" /* MatIconModule */],
+                __WEBPACK_IMPORTED_MODULE_5__angular_material__["b" /* MatCardModule */],
+                __WEBPACK_IMPORTED_MODULE_5__angular_material__["c" /* MatDividerModule */]
             ],
             providers: [__WEBPACK_IMPORTED_MODULE_8__services_data_service__["a" /* DataService */]],
             bootstrap: [__WEBPACK_IMPORTED_MODULE_3__app_component__["a" /* AppComponent */]]

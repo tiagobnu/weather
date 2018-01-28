@@ -1,23 +1,145 @@
-<form [formGroup]="regionForm">
-  <mat-form-field>
-    <mat-select formControlName="estado" placeholder="Favorite food" (change)="onSelectState($event)">
-      <mat-option *ngFor="let state of states" [value]="state.geonameId">
-        {{ state.toponymName }}
-      </mat-option>
-    </mat-select>
-  </mat-form-field>
+<mat-toolbar color="primary">
 
-  <mat-form-field>
-    <input formControlName="cidade" matInput placeholder="City" aria-label="City" [matAutocomplete]="auto" [formControl]="stateCtrl">
-    <mat-autocomplete #auto="matAutocomplete" (optionSelected)="onSelectCity($event)">
-      <mat-option *ngFor="let city of filteredStates | async" [attr.data-lat]="city.lat" [attr.data-lng]="city.lng" [value]="city.toponymName" >
-        {{ city.toponymName }}
-      </mat-option>
-    </mat-autocomplete>
-  </mat-form-field>
-</form>
+    <mat-toolbar-row color="primary">
+
+        <div class="container">
+            <button mat-icon-button>
+                <mat-icon>opacity</mat-icon>
+            </button>
+            <span class="app-title">Weather</span>
+        </div>
+
+    </mat-toolbar-row>
+
+</mat-toolbar>
+
+<mat-card class="container">
+
+    <form [formGroup]="regionForm">
+        <mat-form-field>
+            <mat-select formControlName="estado" placeholder="Estado" (change)="onSelectState($event)">
+            <mat-option *ngFor="let state of states" [value]="state.geonameId">
+                {{ state.toponymName }}
+            </mat-option>
+            </mat-select>
+        </mat-form-field>
+        
+        <mat-form-field>
+            <input formControlName="cidade" matInput placeholder="Cidade" aria-label="City" [matAutocomplete]="auto" [formControl]="stateCtrl">
+            <mat-autocomplete #auto="matAutocomplete" (optionSelected)="onSelectCity($event)">
+            <mat-option *ngFor="let city of filteredStates | async" [attr.data-lat]="city.lat" [attr.data-lng]="city.lng" [value]="city.toponymName" >
+                {{ city.toponymName }}
+            </mat-option>
+            </mat-autocomplete>
+        </mat-form-field>
+    </form>
+
+</mat-card>
+
+<mat-card class="container content-today">
+
+    <div *ngFor="let f of forecast; let ii=index">
+        <div *ngIf="ii<1" class="flex container-today">
+            <div *ngIf="f.condition=='storm'" class="weather-container column1">
+                <ul>
+                    <li>
+                        <div class="icon-container rain thunderstorms">
+                            <div class="cloud"></div>
+                            <div class="rain-container">
+                            <div class="rain-drop"></div>
+                            <div class="rain-drop"></div>
+                            <div class="rain-drop"></div>
+                            <div class="rain-drop"></div>
+                            </div>
+                            <div class="shadow"></div>
+                            <div class="lightning"></div>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+            <div *ngIf="f.condition=='clear_day'" class="weather-container column1">
+                <ul>
+                    <li>
+                        <div class="icon-container">
+                            <div class="sun"></div>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+            <div *ngIf="f.condition=='cloud'" class="weather-container column1">
+                <ul>
+                    <li>
+                        <div class="icon-container cloudy">
+                            <div class="cloud with-shadow">
+                            <div class="shadow"></div>
+                            </div>
+                        </div>
+                    </li>      
+                </ul>
+            </div>
+            <div *ngIf="f.condition=='cloudly_day'" class="weather-container column1">
+                <ul>
+                    <li>
+                        <div class="icon-container mostly-cloudy">
+                            <div class="sun"></div>
+                            <div class="cloud with-shadow">
+                            <div class="shadow"></div>
+                            </div>
+                        </div>
+                    </li>    
+                </ul>
+            </div>
+
+            <div class="column2">
+                <span class="today">{{weather.temp}}º</span>
+                <span>{{f.description}}</span>                
+            </div>
+
+            <div>
+                <div class="maxmin flex"> <i class="material-icons">keyboard_arrow_up</i> <span class="maxmin-label"> {{f.max}}º </span> </div>
+                <div class="maxmin flex"> <i class="material-icons min">keyboard_arrow_down</i> <span class="maxmin-label min"> {{f.min}}º </span> </div>
+            </div>
+
+        </div>
+    </div>
+
+</mat-card>
+
+<mat-card class="container content">
+    <table class="forecast-next" cellspacing="0" borderspacing="0" align="center">
+        <tr *ngFor="let f of forecast; let i=index">
+                <td width="34%" *ngIf="i>0"> 
+                    <div class="maxmin flex"> <i class="material-icons">keyboard_arrow_up</i> <span class="maxmin-label"> {{f.max}}º </span> </div>
+                    <div class="maxmin flex"> <i class="material-icons min">keyboard_arrow_down</i> <span class="maxmin-label min"> {{f.min}}º </span> </div>    
+                </td>
+                <td class="weekday" *ngIf="i>0">{{f.weekday}}</td>
+                <td align="right" *ngIf="i>0"> {{f.description}}</td>
+        </tr>
+    </table>
+</mat-card>
+    
+{{weather | json}}
 
 <BR><br>
-LAST: {{ cities|json }}
-<br><br>
+<!-- LAST: {{ dataTemp|json }} -->
+<br>
+<!-- temperatura atual: {{ dataTemp.results.temp |json }} <br>
+condition: {{ dataTemp.results.forecast[0].condition |json }} <br>
+description: {{ dataTemp.results.forecast[0].description |json }} <br>
+max: {{ dataTemp.results.forecast[0].max |json }} <br>
+min: {{ dataTemp.results.forecast[0].min |json }} <br> -->
+
+<Br>
+<!-- 
+<table>
+  <tr *ngFor="let forecast of dataTemp.results.forecast" >
+    <td>{{forecast.condition}}</td>
+    <td>{{forecast.max}} - {{forecast.min}}</td>
+    <td>{{forecast.weekday}}</td>
+    <td>{{forecast.description}}</td>
+  </tr>
+</table>
+<br><br> -->
 <!-- {{states|json}} -->
+
+<Br>
